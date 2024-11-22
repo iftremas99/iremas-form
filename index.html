@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive TikTok Profile</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(45deg, #ff0066, #6600ff);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+      color: #fff;
+    }
+
+    .container {
+      text-align: center;
+    }
+
+    .profile-photo {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      border: 5px solid #fff;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
+      margin-bottom: 20px;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+      animation: zoomIn 2s ease-in-out;
+    }
+
+    .profile-photo:hover {
+      transform: scale(1.1);
+    }
+
+    .title {
+      font-size: 3em;
+      font-weight: bold;
+      text-transform: uppercase;
+      color: white;
+      text-shadow: 
+        2px 2px 4px rgba(0, 0, 0, 0.8), /* Shadow effect */
+        -2px -2px 4px rgba(255, 255, 255, 0.5); /* Highlight effect */
+      -webkit-text-stroke: 2px black; /* Stroke width and color */
+      -webkit-text-fill-color: white; /* Fills text color inside the stroke */
+      animation: zoomIn 2s ease-in-out;
+    }
+
+    .subtitle {
+      font-size: 1.5em;
+      margin-top: 10px;
+    }
+
+    /* Modal styling */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal-content {
+      background: white;
+      color: black;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      width: 80%;
+      max-width: 400px;
+    }
+
+    .modal-content h2 {
+      margin: 10px 0;
+    }
+
+    .modal-content p {
+      font-size: 1em;
+      margin-bottom: 20px;
+    }
+
+    .close-btn {
+      background-color: #ff0066;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1em;
+    }
+
+    .close-btn:hover {
+      background-color: #cc0055;
+    }
+
+    /* Falling hearts and likes */
+    .heart, .like {
+      position: absolute;
+      top: 0;
+      width: 40px;
+      height: 40px;
+      background-size: cover;
+      z-index: 1;
+      animation: fall 5s linear infinite;
+    }
+
+    .heart {
+      background-image: url('heart.png'); /* Replace with a heart image */
+    }
+
+    .like {
+      background-image: url('like.png'); /* Replace with a like image */
+    }
+
+    @keyframes fall {
+      from {
+        transform: translateY(-100%);
+        opacity: 1;
+      }
+      to {
+        transform: translateY(110%);
+        opacity: 0;
+      }
+    }
+
+    @keyframes zoomIn {
+      from {
+        transform: scale(0.5);
+        opacity: 0;
+      }
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Profile photo -->
+    <img class="profile-photo" src="me.jpg" alt="TikTok Profile Photo" onclick="openModal()">
+
+    <!-- Title and subtitle -->
+    <div class="title">Welcome to My TikTok!</div>
+    <div class="subtitle">Follow Me for Amazing Content</div>
+  </div>
+
+  <!-- Modal for TikTok Profile Details -->
+  <div id="profileModal" class="modal">
+    <div class="modal-content">
+      <h2>My TikTok Profile</h2>
+      <p>Username: @irr.13</p>
+      <p>Followers: 10,000</p>
+      <p>Likes: 50,000</p>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+  </div>
+
+  <!-- JavaScript for Modal and Falling Hearts/Likes -->
+  <script>
+    const modal = document.getElementById('profileModal');
+
+    function openModal() {
+      modal.style.display = 'flex';
+    }
+
+    function closeModal() {
+      modal.style.display = 'none';
+    }
+
+    // Close modal when clicking outside the content
+    window.onclick = function(event) {
+      if (event.target === modal) {
+        modal.style.display = 'none';
+      }
+    };
+
+    const body = document.body;
+
+    function createFallingElement(type) {
+      const element = document.createElement('div');
+      element.className = type;
+      element.style.left = Math.random() > 0.5 ? '0%' : '90%'; // Drop from corners
+      element.style.animationDuration = `${Math.random() * 3 + 2}s`; // Random fall duration
+      body.appendChild(element);
+
+      setTimeout(() => {
+        element.remove(); // Remove after animation
+      }, 5000);
+    }
+
+    setInterval(() => {
+      createFallingElement('heart');
+      createFallingElement('like');
+    }, 500);
+  </script>
+</body>
+</html>
